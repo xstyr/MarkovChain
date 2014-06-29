@@ -68,7 +68,7 @@ Node* Node::getChild(string c){
 int main(int argc, const char * argv[])
 {
     srand( (unsigned int) time(NULL) );
-    std::ifstream file("/data.txt");
+    std::ifstream file("/Users/thomasturner/data.txt");
     
     
     Node* rootNode = new Node;
@@ -78,20 +78,13 @@ int main(int argc, const char * argv[])
         vector<string> splitVec;
         boost::split(splitVec,line,is_any_of(" "));
         
-        for(int i=0; i<splitVec.size()-4; i++){
-            if(i>=4){
-                Node *child = rootNode->sampleChild(splitVec[i]);
-                Node *child2 = child->sampleChild(splitVec[i+1]);
-                Node *child3 = child2->sampleChild(splitVec[i+2]);
-                Node *child4 = child3->sampleChild(splitVec[i+3]);
-                child4->sampleChild(splitVec[i+4]);
+        for(int i=0; i<splitVec.size(); i++){
+            Node * child = rootNode;
+            for (int j=0; j<splitVec.size() && j<5; j++){
+                child = child->sampleChild(splitVec[i+j]);
             }
         }
     }
-    
-    
-    
-    //rootNode->printNode("");
     
     for(int k = 1; k < 30; k++){
         Node* a = rootNode;
@@ -104,11 +97,12 @@ int main(int argc, const char * argv[])
                     cout << word << " ";
                 } else {
                     a = rootNode->getChild(word);
-                    break;
                 }
             }
+            cout << endl << endl;
         }
-        cout << endl;
     }
+    
+    delete rootNode;
     return 0;
 }
